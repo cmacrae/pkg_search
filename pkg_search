@@ -1,0 +1,3 @@
+#! /usr/local/bin/bash
+
+curl -s $PKG_PATH | awk '{print$9}' | sed 's/\.tgz//' | grep $1
