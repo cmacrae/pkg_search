@@ -32,7 +32,8 @@ do
           else
             SELECTED=$(search $1 | grep "^$ANSWER" | cut -d ':' -f2)
             echo -e "\n\e[38;34mInstalling $SELECTED\e[0m\n"
-            sudo pkg_add $SELECTED
+            sudo pkg_add $SELECTED;
+            echo -e "\n$SELECTED installed successfully!"
             break
           fi
           ;;

@@ -1,8 +1,14 @@
-pkg_search
-==========
+pkg\_search
+===========
 
-A nifty little script for searching for packages in OpenBSD
+A nifty little script for searching for & installing packages in OpenBSD
 
-# In progress....
+What does it do?
+----------------
 
-I know... it hardly warrants its own repo, but I'll be adding the ability to install packages from a number delimited list ;)
+pkg\_search searched the users PKG\_PATH for the given string, it then returns a numbered list of package names containing that string and gives the option to install the desired package number using pkg\_add
+
+Caveats
+-------
+
+Currently, only those using FTP to install their packages are able to use pkg\_search 
