@@ -5,11 +5,25 @@ search() {
 	curl -s $PKG_PATH | awk '{print$9}' | sed 's/\.tgz//' | grep $1 | grep -n $1
 }
 
+# Variable to calculate the total number of packages containing the search string
+TOTAL=$(search $1 | wc -l | awk '{print$1}')
+
 echo -e "\nQuerying \e[38;4;34m$PKG_PATH\e[0m for \e[38;33m"$1"\e[0m\n "
 
 search $1
 
-# Variable to calculate the total number of packages containing the search string
-TOTAL=$(search $1 | wc -l | awk '{print$1}')
-
 echo -e "\nThere were \e[38;32m$TOTAL\e[0m packages found\n"
+
+while :
+do
+  read -r -p "Which would you like to install? " ANSWER
+    case $ANSWER in
+      [0-9])
+        SELECTED=$(search $1 | grep "^$ANSWER" | cut -d ':' -f2)
+        sudo pkg_add $SELECTED
+        break
+        ;;
+      *)
+        echo "Please enter the number of the package you'd like to install...."
+    esac
+done
