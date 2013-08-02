@@ -8,12 +8,14 @@ search() {
 # Variable to calculate the total number of packages containing the search string
 TOTAL=$(search $1 | wc -l | awk '{print$1}')
 
+# Search the package path with the search function and calculate the total number of results
 echo -e "\nQuerying \e[38;4;34m$PKG_PATH\e[0m for \e[38;33m"$1"\e[0m\n "
 
 search $1
 
 echo -e "\nThere were \e[38;32m$TOTAL\e[0m packages found\n"
 
+# Prompt the user for a package to install
 while :
 do
   read -r -p "Which would you like to install? " ANSWER
