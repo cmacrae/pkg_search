@@ -1,4 +1,9 @@
 #! /usr/local/bin/bash
 
-# Search the user's defined package path (currently only FTP supported) and provide a numbered list.
-curl -s $PKG_PATH | awk '{print$9}' | sed 's/\.tgz//' | grep $1 | grep -n $1
+# Function to search the user's defined package path (currently only FTP supported) and provide a numbered list.
+search() {
+	curl -s $PKG_PATH | awk '{print$9}' | sed 's/\.tgz//' | grep $1 | grep -n $1
+}
+
+# Variable to calculate the total number of packages containing the search string
+TOTAL=$(search $1 | tail -n 1 | cut -d ':' -f1)
