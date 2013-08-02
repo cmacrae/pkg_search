@@ -1,3 +1,4 @@
 #! /usr/local/bin/bash
 
-curl -s $PKG_PATH | awk '{print$9}' | sed 's/\.tgz//' | grep $1
+# Search the user's defined package path (currently only FTP supported) and provide a numbered list.
+curl -s $PKG_PATH | awk '{print$9}' | sed 's/\.tgz//' | grep $1 | grep -n $1
