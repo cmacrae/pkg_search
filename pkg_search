@@ -1,8 +1,14 @@
 #! /usr/local/bin/bash
 
-# Sanity check to ensure user is using FTP
+# Check to ensure user is using FTP
 if [[ $(echo "$PKG_PATH" | grep -i 'ftp' | wc -l) -eq 0 ]]; then
     echo -e "\nIt doesn't look like you're using FTP for your packages.\npkg_search currently only supports FTP\n"
+    exit 1
+fi
+
+# Ensure the user has passed a search term
+if [[ $# -eq 0 ]]; then
+    echo -e "\nPlease provide a search term...\n"
     exit 1
 fi
 
