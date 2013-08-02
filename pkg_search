@@ -19,6 +19,12 @@ echo -e "\nQuerying \e[38;4;34m$PKG_PATH\e[0m for \e[38;33m'$1'\e[0m\n "
 
 search $1
 
+# If no results are returned exit
+if [[ $TOTAL -lt 1 ]]; then
+  echo -e "No packages containing the string '$1' were found!\n\nExiting...\n"
+  exit 1
+fi
+
 echo -e "\nThere were \e[38;32m$TOTAL\e[0m packages found\n"
 
 # Prompt the user for a package to install
@@ -27,7 +33,7 @@ do
   read -r -p "Which would you like to install? " ANSWER
     case $ANSWER in
       [0-9]|[0-9][0-9])
-          if [[ $ANSWER -gt $TOTAL ]]; then
+          if [[ $ANSWER -gt $TOTAL || $ANSWER == '0' ]]; then
             echo -e "\nPlease enter a number within the result range...\n"
           else
             SELECTED=$(search $1 | grep "^$ANSWER" | cut -d ':' -f2)
