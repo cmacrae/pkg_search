@@ -5,5 +5,11 @@ search() {
 	curl -s $PKG_PATH | awk '{print$9}' | sed 's/\.tgz//' | grep $1 | grep -n $1
 }
 
+echo -e "\nQuerying $PKG_PATH for "$1"\n "
+
+search $1
+
 # Variable to calculate the total number of packages containing the search string
-TOTAL=$(search $1 | tail -n 1 | cut -d ':' -f1)
+TOTAL=$(search $1 | wc -l | awk '{print$1}')
+
+echo -e "\nThere were $TOTAL packages when searching for "$1""
