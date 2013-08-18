@@ -1,5 +1,10 @@
 #! /bin/ksh
 
+# Author:   Calum MacRae
+# e-mail:   calum0macrae@gmail.com
+# Date:     Aug 18 2013
+# Summary:  A small wrapper script for searching for and installing packages in OpenBSD using pkg_info & pkg_add
+
 # Ensure the user has passed a search term
 if [[ $# -eq 0 ]]; then
     echo -e "\nPlease provide a search term...\n"
@@ -10,7 +15,7 @@ fi
 echo -e "\nQuerying package database for '$1'\n"
 pkg_info -Q $1 | grep -n $1
 
-# Calculate the total number of packages containing the search string
+# Calculate the total number of packages found containing the search string
 TOTAL=$(pkg_info -Q $1 | wc -l | awk '{print$1}')
 
 # If no results are returned exit
@@ -22,7 +27,7 @@ fi
 # Echo the total number of packages found containing the search string
 echo -e "\nThere were $TOTAL packages found\n"
 
-# Prompt the user for a package to install
+# Prompt the user for a package to install, install the package number provide
 while :
 do
   print -n "Which would you like to install? "
