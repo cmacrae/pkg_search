@@ -1,29 +1,17 @@
 #! /usr/local/bin/bash
 
-# Check to ensure user is using FTP
-if [[ $(echo "$PKG_PATH" | grep -i 'ftp' | wc -l) -eq 0 ]]; then
-    echo -e "\nIt doesn't look like you're using FTP for your packages.\npkg_search currently only supports FTP\n"
-    exit 1
-fi
-
 # Ensure the user has passed a search term
 if [[ $# -eq 0 ]]; then
     echo -e "\nPlease provide a search term...\n"
     exit 1
 fi
 
-# Function to search the user's defined package path (currently only FTP supported) and provide a numbered list.
-search() {
-	curl -s $PKG_PATH | awk '{print$9}' | sed 's/\.tgz//' | grep $1 | grep -n $1
-}
+# Query the package database for the provided string and echo a numbered list of results
+echo -e "\nQuerying package database for '$1'\n"
+pkg_info -Q $1 | grep -n $1
 
-# Variable to calculate the total number of packages containing the search string
-TOTAL=$(search $1 | wc -l | awk '{print$1}')
-
-# Search the package path with the search function and calculate the total number of results
-echo -e "\nQuerying \e[38;4;34m$PKG_PATH\e[0m for \e[38;33m'$1'\e[0m\n "
-
-search $1
+# Calculate the total number of packages containing the search string
+TOTAL=$(pkg_info -Q $1 | wc -l | awk '{print$1}')
 
 # If no results are returned exit
 if [[ $TOTAL -lt 1 ]]; then
@@ -31,7 +19,8 @@ if [[ $TOTAL -lt 1 ]]; then
   exit 1
 fi
 
-echo -e "\nThere were \e[38;32m$TOTAL\e[0m packages found\n"
+# Echo the total number of packages found containing the search string
+echo -e "\nThere were $TOTAL packages found\n"
 
 # Prompt the user for a package to install
 while :
@@ -42,8 +31,8 @@ do
           if [[ $ANSWER -gt $TOTAL || $ANSWER == '0' ]]; then
             echo -e "\nPlease enter a number within the result range...\n"
           else
-            SELECTED=$(search $1 | grep "^$ANSWER" | cut -d ':' -f2)
-            echo -e "\n\e[38;34mInstalling $SELECTED\e[0m\n"
+            SELECTED=$(pkg_info -Q $1 | grep -n $1 | grep "^$ANSWER" | cut -d ':' -f2 | awk '{print$1}')
+            echo -e "\nInstalling $SELECTED\n"
             sudo pkg_add $SELECTED;
             echo -e "\n$SELECTED installed successfully!"
             break
