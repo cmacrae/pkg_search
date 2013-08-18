@@ -1,4 +1,4 @@
-#! /usr/local/bin/bash
+#! /bin/ksh
 
 # Ensure the user has passed a search term
 if [[ $# -eq 0 ]]; then
@@ -25,7 +25,8 @@ echo -e "\nThere were $TOTAL packages found\n"
 # Prompt the user for a package to install
 while :
 do
-  read -r -p "Which would you like to install? " ANSWER
+  print -n "Which would you like to install? "
+  read ANSWER
     case $ANSWER in
       [0-9]|[0-9][0-9]|[0-9][0-9][0-9]|[0-9][0-9][0-9][0-9])
           if [[ $ANSWER -gt $TOTAL || $ANSWER == '0' ]]; then
