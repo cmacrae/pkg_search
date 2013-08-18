@@ -1,7 +1,7 @@
 pkg\_search
 ===========
 
-A nifty little script for searching for & installing packages in OpenBSD
+A nifty little wrapper for searching for & installing packages in OpenBSD
 
 What does it do?
 ----------------
