@@ -3,6 +3,8 @@ pkg\_search
 
 A nifty little wrapper for searching for & installing packages in OpenBSD
 
+![alt text](example.png)
+
 What does it do?
 ----------------
 
