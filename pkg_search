@@ -35,7 +35,7 @@ do
     case $ANSWER in
       [0-9]|[0-9][0-9]|[0-9][0-9][0-9]|[0-9][0-9][0-9][0-9])
           if [[ $ANSWER -gt $TOTAL ]]; then
-            echo -e "\nPlease enter a number within the result range\n"
+            echo -e "Please enter a number within the result range\n"
           elif [[ $ANSWER == '0' ]]; then
             echo -e "No packages were installed\n"
             break
