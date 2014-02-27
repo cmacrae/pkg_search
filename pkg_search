@@ -9,6 +9,9 @@
 if [[ $# -eq 0 ]]; then
     echo -e "Please provide a search term\n"
     exit 1
+elif [[ $# -gt 1 ]]; then
+    echo -e "Please provide a single search term\n"
+    exit 1
 fi
 
 # Query the package database for the provided string and echo a numbered list of results
