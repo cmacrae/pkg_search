@@ -52,6 +52,7 @@ do
             echo -e "No packages were installed\n"
             break
           else
+            IFS=$OIFS
             SELECTED=$(echo $PKG_INFO | grep -n $1 | grep "^$ANSWER" | cut -d ':' -f2 | awk '{print$1}')
             echo -e "Installing $SELECTED\n"
             sudo pkg_add $SELECTED;
