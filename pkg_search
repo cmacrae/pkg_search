@@ -14,12 +14,21 @@ elif [[ $# -gt 1 ]]; then
     exit 1
 fi
 
+# Backup the field separator
+OIFS=$IFS
+
+# Change IFS from \n to ' ' so that grep will get the right values.
+IFS=" "
+
 # Query the package database for the provided string and echo a numbered list of results
 echo -e "Querying package database for '$1'\n"
-pkg_info -Q $1 | grep -n $1
+
+# Keep the pkg_info output for later use
+PKG_INFO=$(pkg_info -Q $1)
+echo $PKG_INFO | grep -n $1
 
 # Calculate the total number of packages found containing the search string
-TOTAL=$(pkg_info -Q $1 | wc -l | awk '{print$1}')
+TOTAL=$(echo $PKG_INFO | wc -l | awk '{print $1}')
 
 # If no results are returned exit
 if [[ $TOTAL -lt 1 ]]; then
@@ -43,7 +52,7 @@ do
             echo -e "No packages were installed\n"
             break
           else
-            SELECTED=$(pkg_info -Q $1 | grep -n $1 | grep "^$ANSWER" | cut -d ':' -f2 | awk '{print$1}')
+            SELECTED=$(echo $PKG_INFO | grep -n $1 | grep "^$ANSWER" | cut -d ':' -f2 | awk '{print$1}')
             echo -e "Installing $SELECTED\n"
             sudo pkg_add $SELECTED;
             echo -e "$SELECTED installed successfully\n"
@@ -54,3 +63,6 @@ do
           echo -e "Please enter the number of the package you'd like to install\n"
     esac
 done
+
+# Restore our old IFS so we don't ruin the world
+IFS=$OIFS
